@@ -8,6 +8,33 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  double _balance = 0;
+  bool _opacity = false;
+
+  void deposit() {
+    setState(() {
+      _balance += 100;
+    });
+  }
+
+  void withdraw(context) {
+    if (_balance >= 50) {
+      setState(() {
+        _balance -= 50;
+      });
+    } else {
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+         content: Text("Saldo insuficiente")
+       ));
+    }
+  }
+
+  void toggleHide() {
+    setState(() {
+      _opacity = !_opacity;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,16 +46,16 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+        padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
         child: ListView(
           children: [
             Container(
-              height: 500,
+              height: 280,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Colors.blueGrey),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
+                  color: Colors.black87),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     Row(
@@ -36,30 +63,73 @@ class _HomeState extends State<Home> {
                       children: [
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               "Saldo disponível",
                               style: TextStyle(fontSize: 20),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   "R\$",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text("Valor"),
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    !_opacity ? "$_balance" : "--------",
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
                                 )
                               ],
                             ),
                           ],
                         ),
-                        Icon(Icons.arrow_forward_ios_rounded)
+                        TextButton(
+                          onPressed: () => {toggleHide()},
+                          style: TextButton.styleFrom(iconColor: Colors.white),
+                          child: !_opacity
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        )
                       ],
                     ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () => {deposit()},
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.lightGreen,
+                            foregroundColor: Colors.black38,
+                            fixedSize: const Size(120, 30),
+                          ),
+                          child: const Text(
+                            "Despositar",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => {withdraw(context)},
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            foregroundColor: Colors.black38,
+                            fixedSize: const Size(120, 30),
+                          ),
+                          child: const Text(
+                            "Sacar",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
