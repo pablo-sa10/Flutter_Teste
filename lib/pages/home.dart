@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import '../provider/balance.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,6 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // late Balance balance;
   double _balance = 0;
   bool _opacity = false;
 
@@ -36,7 +39,10 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    // balance = Provider.of<Balance>(context) as Balance;
+    // balance = context.watch<Balance>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -105,10 +111,13 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextButton(
-                          onPressed: () => {deposit()},
+                          onPressed: () => {
+                            // balance.deposit()
+                            deposit()
+                          },
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.lightGreen,
-                            foregroundColor: Colors.black38,
+                            foregroundColor: Colors.white,
                             fixedSize: const Size(120, 30),
                           ),
                           child: const Text(
@@ -117,10 +126,13 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => {withdraw(context)},
+                          onPressed: () => {
+                            // balance.withdraw(context)
+                            withdraw(context)
+                          },
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.redAccent,
-                            foregroundColor: Colors.black38,
+                            foregroundColor: Colors.white,
                             fixedSize: const Size(120, 30),
                           ),
                           child: const Text(
