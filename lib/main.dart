@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:teste_flutter/provider/balance.dart';
 import 'pages/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    // ChangeNotifierProvider(
+    //   create: (context) => Balance(),
+    //   child: const MyApp(),
+    // ),
+    const MyApp()
+  );
 }
 
 class MyApp extends StatelessWidget {
