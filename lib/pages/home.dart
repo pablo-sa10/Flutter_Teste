@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
-// import '../provider/balance.dart';
+import '../provider/balance.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
