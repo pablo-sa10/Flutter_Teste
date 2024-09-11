@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import '../provider/balance.dart';
+import 'package:provider/provider.dart';
+import '../balanceController/balance.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,27 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // late Balance balance;
-  double _balance = 0;
   bool _opacity = false;
-
-  void deposit() {
-    setState(() {
-      _balance += 100;
-    });
-  }
-
-  void withdraw(context) {
-    if (_balance >= 50) {
-      setState(() {
-        _balance -= 50;
-      });
-    } else {
-       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-         content: Text("Saldo insuficiente")
-       ));
-    }
-  }
 
   void toggleHide() {
     setState(() {
@@ -40,8 +20,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context){
-    // balance = Provider.of<Balance>(context) as Balance;
-    // balance = context.watch<Balance>();
 
     return Scaffold(
       appBar: AppBar(
@@ -86,9 +64,13 @@ class _HomeState extends State<Home> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    !_opacity ? "$_balance" : "--------",
-                                    style: const TextStyle(fontSize: 20),
+                                  child: Consumer<BalanceController>(
+                                    builder: (BuildContext context, BalanceController value, Widget? child) {
+                                      return Text(
+                                        !_opacity ? "${value.balance}" : "--------",
+                                        style: const TextStyle(fontSize: 20),
+                                      );
+                                    },
                                   ),
                                 )
                               ],
@@ -113,7 +95,7 @@ class _HomeState extends State<Home> {
                         TextButton(
                           onPressed: () => {
                             // balance.deposit()
-                            deposit()
+                            Provider.of<BalanceController>(context, listen: false).deposit()
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.lightGreen,
@@ -128,7 +110,7 @@ class _HomeState extends State<Home> {
                         TextButton(
                           onPressed: () => {
                             // balance.withdraw(context)
-                            withdraw(context)
+                            Provider.of<BalanceController>(context, listen: false).withdraw(context)
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.redAccent,
